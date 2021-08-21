@@ -1,7 +1,8 @@
 <?php
 
-namespace app\widgets;
+namespace samuelelonghin\gridview;
 
+use samuelelonghin\btn\Btn;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\data\ActiveDataProvider;
