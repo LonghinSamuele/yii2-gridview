@@ -1,5 +1,5 @@
 {
-  "name": "longhinsamuele/yii2-gridview",
+  "name": "samuelelonghin/yii2-gridview",
   "description": "new Bootstrap 4 GridView",
   "type": "yii2-extension",
   "version": "1.0.2",
@@ -11,7 +11,7 @@
     "gridview",
     "bootstrap"
   ],
-  "license": "Apache-2.0",
+  "license": "MIT",
   "authors": [
     {
       "name": "Samuele Longhin",
@@ -22,7 +22,7 @@
     "yiisoft/yii2": "~2.0.0",
     "kartik-v/yii2-grid": ">=v2.0.0",
     "yiisoft/yii2-bootstrap4": ">=2.0.10",
-    "longhinsamuele/yii2-btn": "*"
+    "samuelelonghin/yii2-btn": "*"
   },
   "autoload": {
     "psr-4": {
