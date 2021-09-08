@@ -2,18 +2,31 @@
 
 namespace samuelelonghin\gridview;
 
+use kartik\base\Config;
 use samuelelonghin\btn\Btn;
+use samuelelonghin\grid\Module;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\data\ActiveDataProvider;
+use yii\grid\Column;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
 
+/**
+ * Class GridView
+ * @package samuelelonghin\gridview
+ *
+ * @property Column[] $mergeColumns
+ */
 class GridView extends \kartik\grid\GridView
 {
+
     public $isAssociative = false;
     public $itemClass = false;
+    /**
+     * @var bool|Column[]
+     */
     public $mergeColumns = false;
     public $query;
     public $rowClickUrl = false;
@@ -43,6 +56,8 @@ class GridView extends \kartik\grid\GridView
 
     private $isEmpty = false;
 
+    public $moduleId = 'gridview-s';
+    
     public function init()
     {
         if (!$this->visible) return;
@@ -51,10 +66,9 @@ class GridView extends \kartik\grid\GridView
                 $pagination = [];
                 if (!is_null($this->limit)) {
                     if ($this->limit)
-                        $pagination ['pageSize'] = $this->limit;
+                        $pagination['pageSize'] = $this->limit;
                 }
                 $this->dataProvider = new ActiveDataProvider(['query' => $this->query, 'pagination' => $pagination]);
-
             } else {
                 throw new InvalidConfigException('Il campo "query" deve essere impostato');
             }
@@ -95,7 +109,7 @@ class GridView extends \kartik\grid\GridView
                 $params[$pk] = $model[$pk];
                 $params[] = $urlClick;
                 $url = Url::toRoute($params, 'https');
-//                $url = Url::toRoute([$urlClick, $pk => $model[$pk]], 'https');
+                //                $url = Url::toRoute([$urlClick, $pk => $model[$pk]], 'https');
                 return [$pk => $model[$pk], 'onclick' => 'cambiaPagina(event,"' . $url . '");'];
             };
         }
@@ -103,7 +117,6 @@ class GridView extends \kartik\grid\GridView
             $this->cornerButton = Btn::widget(['type' => 'expand', 'url' => $this->cornerButtonUrl ?: false, 'icon' => $this->cornerIcon ?: 'expand', 'text' => false]);
         }
         parent::init();
-
     }
 
     /**
@@ -130,7 +143,7 @@ class GridView extends \kartik\grid\GridView
 
     public function initContainer()
     {
-        ?>
+?>
         <div class="<?= $this->containerClass ?>">
         <?php
     }
@@ -157,7 +170,7 @@ class GridView extends \kartik\grid\GridView
         if (is_string($this->title)) {
 
             $headingNumber = 2 + $this->level;
-            ?>
+        ?>
             <div class="row">
                 <div class="col">
                     <h<?= $headingNumber ?>><?= Html::encode($this->title) ?></h<?= $headingNumber ?>>
@@ -166,7 +179,7 @@ class GridView extends \kartik\grid\GridView
                     <?= $this->cornerButton ?>
                 </div>
             </div>
-            <?php
+<?php
         }
     }
 
@@ -178,5 +191,19 @@ class GridView extends \kartik\grid\GridView
         }
     }
 
-
+    protected function initModule()
+    {
+        if (!isset($this->moduleId)) {
+            $this->_module = Module::getInstance();
+            if (isset($this->_module)) {
+                $this->moduleId = $this->_module->id;
+                return;
+            }
+            $this->moduleId = Module::MODULE;
+        }
+        $this->_module = Config::getModule($this->moduleId, Module::class);
+        if (isset($this->bsVersion)) {
+            return;
+        }
+    }
 }
