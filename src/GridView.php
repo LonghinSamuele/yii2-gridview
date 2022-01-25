@@ -108,8 +108,7 @@ class GridView extends \kartik\grid\GridView
             $this->rowOptions = function ($model) use ($urlClick, $pk, $params) {
                 $params[$pk] = $model[$pk];
                 $params[] = $urlClick;
-                $url = Url::toRoute($params, 'https');
-                //                $url = Url::toRoute([$urlClick, $pk => $model[$pk]], 'https');
+                $url = Url::toRoute($params);
                 return [$pk => $model[$pk], 'onclick' => 'cambiaPagina(event,"' . $url . '");'];
             };
         }
